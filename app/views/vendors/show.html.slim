@@ -1,0 +1,29 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), vendors_path, class: 'button'
+      -unless @read_only
+        li= link_to t('web_app_theme.new'), new_vendor_path, class: 'button'
+        li= link_to t('web_app_theme.edit'), edit_vendor_path(@vendor), class: 'button success'
+        -if @vendor.archive
+          li= link_to t(:restore), switch_vendor_path(@vendor), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'button secondary'
+        -else
+          li= link_to t(:archive), switch_vendor_path(@vendor), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'button secondary'
+  .content
+    .inner
+      p
+        strong #{t(:title)}:&nbsp;&nbsp;
+        = @vendor.title
+      p
+        strong #{t(:address)}:&nbsp;&nbsp;
+        = @vendor.address
+      p
+        strong #{t(:contact_person)}:&nbsp;&nbsp;
+        = @vendor.contact_person
+      p
+        strong #{t(:email).camelcase}:&nbsp;&nbsp;
+        = @vendor.email
+      p
+        strong #{t(:phone)}:&nbsp;&nbsp;
+        = @vendor.phone

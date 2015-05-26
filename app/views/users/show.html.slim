@@ -1,0 +1,40 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li= link_to t('web_app_theme.list'), users_path, class: 'button'
+      -unless @read_only
+        li= link_to t('web_app_theme.new'), new_user_path, class: 'button'
+        li= link_to t('web_app_theme.edit'), edit_user_path(@user), class: 'button success'
+        -if @user.archive
+          li= link_to t(:restore), switch_user_path(@user), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'button secondary'
+        -else
+          li= link_to t(:archive), switch_user_path(@user), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'button secondary'
+  .content
+    .inner
+      p
+        strong #{t(:username)}:&nbsp;
+        = @user.username
+      p
+        strong #{t(:name)}:&nbsp;
+        = @user.name
+      p
+        strong #{t(:first_name)}:&nbsp;
+        = @user.first_name
+      p
+        strong #{t(:last_name)}:&nbsp;
+        = @user.last_name
+      p
+        strong #{t(:email).camelcase}:&nbsp;
+        = @user.email
+      p
+        strong #{t(:department)}:&nbsp;
+        = @user.department.title if @user.department
+      p
+        strong #{t(:can_login)}&nbsp;
+        = @user.login ? t(:_yes_) : t(:_no_)
+      p
+        strong #{t(:read_only)}&nbsp;
+        = @user.read_only ? t(:_yes_) : t(:_no_)
+      p
+        strong #{t(:is_admin)}&nbsp;
+        = @user.admin ? t(:_yes_) : t(:_no_)

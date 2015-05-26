@@ -1,0 +1,50 @@
+= form_for @inventory do |f|
+  - if @inventory.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@inventory.errors.count, "error")} prohibited this inventory from being saved:"
+      ul
+        - @inventory.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.text_field :tag
+  .field
+    = f.text_field :model
+  .field
+    = f.text_field :serial
+  .field
+    = f.text_field :notes
+  .field
+    = f.text_field :date_of_purchase
+  .field
+    = f.text_field :date_of_registration
+  .field
+    = f.select :user_id, options_for_select(@users, @inventory.user_id)
+  br
+  .field
+    = f.select :kind_id, options_for_select(@kinds, @inventory.kind_id)
+  br
+  .field
+    = f.select :vendor_id, options_for_select(@vendors, @inventory.vendor_id)
+  br
+  .actions = f.submit
+
+javascript:
+  $('#inventory_date_of_purchase').fdatepicker({
+    format: "dd/mm/yyyy",
+    weekStart: 1
+  });
+  $('#inventory_date_of_registration').fdatepicker({
+    format: "dd/mm/yyyy",
+    weekStart: 1
+  });
+  $(document).ready(function() { $("#inventory_user_id").select2(); });
+  $(document).ready(function() { $("#inventory_kind_id").select2(); });
+  $(document).ready(function() { $("#inventory_vendor_id").select2(); });
+
+  $('#inventory_model').autocomplete({
+    source: '/inventory/autocomplete.json',
+    onSelect: function (suggestion) {
+      alert('You selected: ' + suggestion.description);
+    }
+  });

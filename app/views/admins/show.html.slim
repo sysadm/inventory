@@ -1,0 +1,13 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li= link_to t('web_app_theme.list'), admins_path, class: 'button'
+      -unless @read_only
+        li= link_to t('web_app_theme.new'), new_admin_path, class: 'button'
+        li= link_to t('web_app_theme.edit'), edit_admin_path(@admin), class: 'button success'
+        li= link_to t(:delete), admin_path(@admin), method: :delete, data: {confirm: t(:are_you_sure)}, title: t(:delete), class: 'button alert'
+  .content
+    .inner
+      p
+        strong #{t(:email).camelcase}:&nbsp;&nbsp;
+        = @admin.email

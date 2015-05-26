@@ -1,0 +1,31 @@
+h1 #{t(:listing_of_inventory)}
+#search_results
+  -if @inventories.count > 0
+    table.full_width
+      thead
+          tr
+          th #{t(:tag)}
+          th #{t(:model)}
+          th #{t(:serial)}
+          th #{t(:date_of_purchase)}
+          th #{t(:user)}
+          th #{t(:kind)}
+          th #{t(:vendor)}
+          th #{t(:details)}
+      tbody
+        - @inventories.each do |inventory|
+          tr
+            td = inventory.tag
+            td = inventory.model
+            td = inventory.serial
+            td = inventory.date_of_purchase
+            td = inventory.user.name unless inventory.user.nil?
+            td
+              = inventory.kind.description unless inventory.kind.nil?
+            td
+              = inventory.vendor.title unless inventory.vendor.nil?
+            td = link_to fa_icon('eye'), inventory, title: t(:details)
+  -else
+    .center
+      h2 #{t(:no_inventory)}
+      br

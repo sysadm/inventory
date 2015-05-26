@@ -1,0 +1,48 @@
+div[style="text-align: center; vertical-align: middle; line-height: 150px;"]
+  = image_tag 'multitel_logo.jpg', alt: "Logotype", width: 205
+  h1 Inventory
+div[style="width: 300px; margin: 0 auto;"]
+  .login-box
+    .login-body
+      ul.nav.nav-tabs
+        li.active#ldap
+          = link_to 'LDAP', '#', 'data-toggle': "tab"
+        li#standard
+          = link_to 'Standard', '#', 'data-toggle': "tab"
+      #standard-login-form.hidden
+        = form_tag sessions_path :id => 'login' do
+          .field
+            = label_tag t(:email)
+            = text_field_tag :email, params[:email]
+          .field
+            = label_tag t(:password)
+            = password_field_tag :password
+          .field
+            = check_box_tag :remember_me, 1, params[:remember_me]
+            = label_tag t(:remember_me)
+          .actions[style="text-align: center"]
+            = submit_tag t(:login), class: "button radius"
+      #ldap-login-form
+        = form_tag ldap_login_path :id => 'ldap_login' do
+          .field
+            = label_tag t(:username)
+            = text_field_tag :username, params[:username]
+          .field
+            = label_tag t(:password)
+            = password_field_tag :password
+          .actions[style="text-align: center"]
+            = submit_tag t(:login), class: "button radius"
+
+javascript:
+  $('#standard').click(function() {
+    $('#ldap').removeClass('active');
+    $('#standard').addClass('active');
+    $('#ldap-login-form').hide();
+    $('#standard-login-form').fadeIn("slow");
+  });
+  $('#ldap').click(function() {
+    $('#standard').removeClass('active');
+    $('#ldap').addClass('active');
+    $('#standard-login-form').hide();
+    $('#ldap-login-form').fadeIn("slow");
+  });

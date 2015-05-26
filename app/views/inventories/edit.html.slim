@@ -1,0 +1,19 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), inventories_path, class: 'button'
+      li= link_to t('web_app_theme.new'), new_inventory_path, class: 'button'
+      li.active
+        = link_to t('web_app_theme.edit'), edit_inventory_path, class: 'button success'
+      li= link_to t('web_app_theme.show'), inventory_path, class: 'button'
+      -if @inventory.archive
+        li= link_to t(:restore), switch_inventory_path(@inventory), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'button secondary'
+      -else
+        li= link_to t(:archive), switch_inventory_path(@inventory), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'button secondary'
+  .content
+    h2.title
+      = t('web_app_theme.edit') + ' '
+      = t('web_app_theme.inventory')
+    .inner
+      = render 'form'

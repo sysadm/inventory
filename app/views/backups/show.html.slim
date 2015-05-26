@@ -1,0 +1,30 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), backups_path, class: 'button'
+      -unless @read_only
+        li= link_to t('web_app_theme.rollback'), rollback_path(@backup), method: :put, data: {confirm: t(:are_you_sure)}, class: 'button alert'
+  .content
+    .inner
+      p
+        strong Id:&nbsp;
+        = @backup.id
+      p
+        strong #{t(:file)}:&nbsp;
+        = @backup.file
+      p
+        strong #{t(:size)}:&nbsp;
+        = @backup.size
+      p
+        strong SHA512 #{t(:digest)}:&nbsp;
+        = @backup.digest
+      p
+        strong #{t(:status)}:&nbsp;
+        == human_status @backup
+      p
+        strong #{t(:created_at)}:&nbsp;
+        = @backup.created_at
+      p
+        strong #{t(:updated_at)}:&nbsp;
+        = @backup.updated_at

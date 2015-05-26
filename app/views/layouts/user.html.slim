@@ -1,0 +1,36 @@
+doctype html
+html lang="en"
+  head
+    meta charset='utf-8'
+    meta name='viewport' content='width=device-width, initial-scale=1.0'
+    meta name="author" content="Jerzy Sładkowski"
+    title= content_for?(:title) ? yield(:title) : 'Multitel Inventory'
+    = favicon_link_tag
+    = stylesheet_link_tag "application"
+    = javascript_include_tag "vendor/modernizr"
+    = javascript_include_tag "application"
+    = csrf_meta_tag
+
+  body
+    nav.top-bar.user-layout data-topbar=''
+      ul.title-area
+        li.name
+          h1= link_to 'Multitel Inventory', root_path
+        li.toggle-topbar.menu-icon
+          = link_to 'Menu', '#'
+      section.top-bar-section
+        ul.right
+          li.divider
+          li.has-dropdown
+            = link_to locale.upcase, '#'
+            ul.dropdown
+              - other_langs.each do |l|
+                li= link_to(l.upcase, lang: l)
+          li.divider
+          li= link_to t(:logout), logout_path
+
+    = render 'layouts/messages'
+
+    .row
+      .large-12.columns
+        = yield

@@ -1,0 +1,41 @@
+-if @backups.count > 0
+  h1 #{t(:listing_of_backups)}
+
+  table
+    thead
+      tr
+        th id
+        th #{t(:file)}
+        th #{t(:size)}
+        th #{t(:status)}
+        th #{t(:created_at)}
+        th #{t(:updated_at)}
+        th[colspan="4"] #{t(:actions)}
+
+    tbody
+      - @backups.each do |backup|
+        tr
+          td = backup.id
+          td = backup.file
+          td = backup.size
+          td == human_status backup
+          td = backup.created_at
+          td = backup.updated_at
+          td = link_to fa_icon('eye'), backup, title: t(:details)
+          td = link_to fa_icon('download'), download_path(backup), title: t(:download), class: 'download'
+          -unless @read_only
+            -if backup.current
+              td
+                = fa_icon('history', class: 'unavailable')
+              td
+                = fa_icon('trash', class: 'unavailable')
+            -else
+              td = link_to fa_icon('history'), rollback_path(backup), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:rollback), class: 'rollback'
+              td = link_to fa_icon('trash'), backup, data: {confirm: t(:are_you_sure)}, method: :delete, title: t(:delete), class: 'trash'
+
+-else
+  .center
+    h2 #{t(:no_backups)}
+    br
+  -unless @read_only
+    = link_to t(:create_backup), initial_backup_path, method: 'post', class: 'button radius'

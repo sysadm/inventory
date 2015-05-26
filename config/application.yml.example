@@ -1,0 +1,45 @@
+production: &base
+  csv:
+    path: 'csv'
+  ldap:
+    enabled: true
+    host: 'ldap.your_organization.com'
+    port: 389
+    uid: 'uid'
+    displayName: 'displayName'
+    givenName: 'givenName'
+    sn: 'sn'
+    mail: 'mail'
+    method: 'tls' # "tls" or "ssl" or "plain"
+    bind_dn: 'cn=super_user,ou=people,dc=your_organization,dc=com'
+    password: 'super_password'
+    allow_username_or_email_login: true
+    base: 'ou=People,dc=your_organization,dc=com'
+    user_filter: ''
+  omniauth:
+    enabled: false
+
+development:
+  <<: *base
+  csv:
+    path: 'csv'
+  ldap:
+    enabled: true
+    host: 'ldap.your_organization.com'
+    port: 389
+    uid: 'uid'
+    displayName: 'displayName'
+    givenName: 'givenName'
+    sn: 'sn'
+    mail: 'mail'
+    method: 'tls' # "tls" or "ssl" or "plain"
+    bind_dn: 'cn=super_user,ou=people,dc=your_organization,dc=com'
+    password: 'super_password'
+    allow_username_or_email_login: true
+    base: 'ou=People,dc=your_organization,dc=com'
+    user_filter: ''
+  omniauth:
+    enabled: false
+
+test:
+  <<: *base

@@ -1,0 +1,52 @@
+= form_for @user do |f|
+  - if @user.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@user.errors.count, "error")} prohibited this user from being saved:"
+      ul
+        - @user.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.text_field :username
+  .field
+    = f.text_field :name
+  .field
+    = f.text_field :first_name
+  .field
+    = f.text_field :last_name
+  .field
+    = f.text_field :email
+  .field
+    = f.select :department_id, options_for_select(@departments, @user.department_id)
+  br
+  .field
+    = f.check_box :login
+  .field
+    = f.check_box :read_only
+  .field
+    = f.check_box :admin
+  .actions = f.submit
+
+
+javascript:
+  $(document).ready(function () {
+    $("#user_department_id").select2();
+  });
+  $('#user_login').change(function(){
+    if($(this).not(':checked')) {
+      $('#user_read_only').attr('checked', false);
+      $('#user_admin').attr('checked', false);
+    }
+  });
+  $('#user_read_only').change(function(){
+    if($(this).is(':checked')) {
+      $('#user_admin').attr('checked', false);
+      $('#user_login').prop('checked', true);
+    }
+  });
+  $('#user_admin').change(function () {
+    if ($(this).is(':checked')) {
+      $('#user_read_only').attr('checked', false);
+      $('#user_login').prop('checked', true);
+    }
+  });

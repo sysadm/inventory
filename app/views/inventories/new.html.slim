@@ -1,0 +1,12 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), inventories_path, class: 'button'
+  .content
+    h2.title
+      = t('web_app_theme.new') + ' '
+      = t('web_app_theme.inventory')
+    .inner
+      = render 'form'
+

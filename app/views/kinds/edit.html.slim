@@ -1,0 +1,19 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), kinds_path, class: 'button'
+      li= link_to t('web_app_theme.new'), new_kind_path, class: 'button'
+      li.active
+        = link_to t('web_app_theme.edit'), edit_kind_path, class: 'button success'
+      li= link_to t('web_app_theme.show'), kind_path, class: 'button'
+      -if @kind.archive
+        li= link_to t(:restore), switch_kind_path(@kind), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'button secondary'
+      -else
+        li= link_to t(:archive), switch_kind_path(@kind), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'button secondary'
+  .content
+    h2.title
+      = t('web_app_theme.edit') + ' '
+      = t(:type)
+    .inner
+      = render 'form'

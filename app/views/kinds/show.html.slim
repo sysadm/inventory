@@ -1,0 +1,17 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), kinds_path, class: 'button'
+      -unless @read_only
+        li= link_to t('web_app_theme.new'), new_kind_path, class: 'button'
+        li= link_to t('web_app_theme.edit'), edit_kind_path(@kind), class: 'button success'
+        -if @kind.archive
+          li= link_to t(:restore), switch_kind_path(@kind), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'button secondary'
+        -else
+          li= link_to t(:archive), switch_kind_path(@kind), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'button secondary'
+  .content
+    .inner
+      p
+        strong #{t(:description)}:&nbsp;&nbsp;
+        = @kind.description

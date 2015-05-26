@@ -1,0 +1,33 @@
+-if @departments.count > 0
+  h1 #{t(:listing_of_departments)}
+
+  table
+    thead
+      tr
+        th #{t(:title)}
+        th[colspan="3"] #{t(:actions)}
+
+    tbody
+      - @departments.each do |department|
+        tr
+          td = department.title
+          td = link_to fa_icon('eye'), department, title: t(:details)
+          -unless @read_only
+            td = link_to fa_icon('edit'), edit_department_path(department), title: t(:edit), class: 'edit'
+            -if department.archive
+              td = link_to fa_icon('history'), switch_department_path(department), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'restore'
+            -else
+              td = link_to fa_icon('archive'), switch_department_path(department), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'archive'
+  br
+-else
+  .center
+    h2 #{t(:no_departments)}
+    br
+
+-unless @read_only
+  = link_to t(:new), new_department_path, class: 'button radius'
+  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-if @archive
+  = link_to t(:active_departments_index), departments_path(params: {archive: false} ), class: 'button secondary radius'
+-else
+  = link_to t(:archive_index), departments_path(params: {archive: true} ), class: 'button secondary radius'

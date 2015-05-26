@@ -1,0 +1,41 @@
+-if @vendors.count > 0
+  h1 #{t(:listing_of_vendors)}
+  
+  table
+    thead
+      tr
+        th #{t(:title)}
+        th #{t(:address)}
+        th #{t(:contact_person)}
+        th #{t(:email).camelcase}
+        th #{t(:phone)}
+        th[colspan="3"] #{t(:actions)}
+  
+    tbody
+      - @vendors.each do |vendor|
+        tr
+          td = vendor.title
+          td = vendor.address
+          td = vendor.contact_person
+          td = vendor.email
+          td = vendor.phone
+          td = link_to fa_icon('eye'), vendor, title: t(:details)
+          -unless @read_only
+            td = link_to fa_icon('edit'), edit_vendor_path(vendor), title: t(:edit), class: 'edit'
+            -if vendor.archive
+              td = link_to fa_icon('history'), switch_vendor_path(vendor), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'restore'
+            -else
+              td = link_to fa_icon('archive'), switch_vendor_path(vendor), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'archive'
+  br
+-else
+  .center
+    h2 #{t(:no_vendors)}
+    br
+
+-unless @read_only
+  = link_to t(:new), new_vendor_path, class: 'button radius'
+  '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-if @archive
+  = link_to t(:active_vendors_index), vendors_path(params: {archive: false}), class: 'button secondary radius'
+-else
+  = link_to t(:archive_index), vendors_path(params: {archive: true}), class: 'button secondary radius'

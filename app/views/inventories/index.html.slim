@@ -1,0 +1,68 @@
+h1 #{t(:listing_of_inventory)}
+.container
+  #search.filter-parent
+    label[for="filter"]
+      i.fa.fa-search
+    input#filter.form-control.input-lg[type="text" tabindex="1" placeholder="#{t(:placeholder)}"]
+    a#filter-clear.fa.fa-times href='#'
+#search_results
+  = render 'inventory'
+-unless @read_only
+  = link_to t(:new), new_inventory_path, class: 'button radius'
+
+javascript:
+  var $filter_by = $('#filter');
+
+  // Filter icons
+  if ($filter_by.length) {
+    var $filter = $('#filter');
+    var $clear = $('#filter-clear');
+    $clear.on('click', function (e) {
+      e.preventDefault();
+      $filter_by
+              .val('')
+              .trigger('input')
+              .trigger('keyup')
+              .focus();
+      resetFilter();
+      $clear.fadeOut(); // Hide clear button
+    });
+
+    $filter_by.on('keyup', function () {
+      var $this = $(this);
+      var $val = $this.val().toLowerCase();
+      if ($val.length >= #{@min_search_value}) {
+        setFilter($val);
+        $clear.fadeIn();
+        return true;
+      };
+      if ($val.length == #{@min_search_value - 1}) {
+        resetFilter();
+        $clear.fadeOut();
+        return true;
+      };
+      return false;
+    });
+  }
+  function setFilter(val) {
+    $("#search_result").fadeOut(100);
+    $.ajax({
+      type: "GET",
+      url: "/inventories/search/" + val,
+      success: function (msg) {
+        $("#search_result").fadeIn(300);
+      }
+    });
+    event.preventDefault();
+  }
+  function resetFilter() {
+    $("#search_result").fadeOut(100);
+    $.ajax({
+      type: "GET",
+      url: "/inventories/search/reset",
+      success: function (msg) {
+        $("#search_result").fadeIn(300);
+      }
+    });
+    event.preventDefault();
+  }

@@ -1,0 +1,41 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), inventories_path, class: 'button'
+      - if @current_user.is_admin? and !@read_only
+        li= link_to t('web_app_theme.new'), new_inventory_path, class: 'button'
+        li= link_to t('web_app_theme.edit'), edit_inventory_path(@inventory), class: 'button success'
+        -if @inventory.archive
+          li= link_to t(:restore), switch_inventory_path(@inventory), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'button secondary'
+        -else
+          li= link_to t(:archive), switch_inventory_path(@inventory), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'button secondary'
+  .content
+    .inner
+      p
+        strong #{t(:tag)}:&nbsp;
+        = @inventory.tag
+      p
+        strong #{t(:model)}:&nbsp;
+        = @inventory.model
+      p
+        strong #{t(:serial)}:&nbsp;
+        = @inventory.serial
+      p
+        strong #{t(:notes)}:&nbsp;
+        = @inventory.notes
+      p
+        strong #{t(:date_of_purchase)}:&nbsp;
+        = @inventory.date_of_purchase
+      p
+        strong #{t(:date_of_registration)}:&nbsp;
+        = @inventory.date_of_registration
+      p
+        strong #{t(:user)}:&nbsp;
+        = @inventory.user.name unless @inventory.user.nil?
+      p
+        strong #{t(:kind)}:&nbsp;
+        = @inventory.kind.description unless @inventory.kind.nil?
+      p
+        strong #{t(:vendor)}:&nbsp;
+        = @inventory.vendor.title unless @inventory.vendor.nil?

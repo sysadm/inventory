@@ -1,0 +1,11 @@
+.block
+  .secondary-navigation
+    ul.button-group.radius
+      li.first
+        = link_to t('web_app_theme.list'), users_path, class: 'button'
+  .content
+    h2.title
+      = t('web_app_theme.new') + ' '
+      = t(:user).downcase
+    .inner
+      = render 'form'
