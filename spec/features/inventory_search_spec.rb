@@ -11,7 +11,7 @@ describe 'Inventory search script should work correct.', js:true, feature: true 
     create(:admin_login_user)
     create(:default_user)
   }
-  let! (:inventory){create_list(:inventory,5)}
+  let! (:inventory){create_list(:inventory_new,5,user: user, vendor: vendor[0], kind: kind[0])}
   before :each do
     I18n.locale = :en
     login_with(admin)

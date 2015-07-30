@@ -2,13 +2,19 @@
   table.full_width
     thead
       tr
-        th #{t(:tag)}
-        th #{t(:model)}
+        th
+          = sortable 'tag',t(:tag)
+        th
+          = sortable 'model',t(:model)
         th #{t(:serial)}
-        th #{t(:date_of_purchase)}
-        th #{t(:user)}
-        th #{t(:kind)}
-        th #{t(:vendor)}
+        th
+          = sortable 'date_of_purchase',t(:date_of_purchase)
+        th
+          = sortable 'users.name',t(:user)
+        th
+          = sortable 'kinds.description',t(:kind)
+        th
+          = sortable 'vendors.title',t(:vendor)
         th[colspan="3"] #{t(:actions)}
 
     tbody
@@ -37,3 +43,11 @@
   .center
     h2 #{t(:no_inventory)}
     br
+
+javascript:
+  $(function () {
+    $("th a").on("click", function () {
+      $.getScript(this.href);
+      return false;
+    });
+  });

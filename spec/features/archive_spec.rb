@@ -11,7 +11,7 @@ describe 'Archiving inventories, vendors, kinds, departments.' do
     create(:admin_login_user)
     create(:default_user)
   }
-  let! (:inventory){create_list(:inventory,3)}
+  let! (:inventory){create_list(:inventory_new,3,user: user, vendor: vendor[0], kind: kind[0])}
   before :each do
     I18n.locale = :en
     login_with(admin)

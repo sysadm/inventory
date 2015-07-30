@@ -1,4 +1,5 @@
 class InventoriesController < ApplicationController
+  helper_method :sort_column, :sort_direction
   before_action :set_inventory, only: [:show, :edit, :update, :destroy, :switch]
   before_action :set_kinds_vendors_and_users, only: [:new, :edit, :update]
   before_filter :set_layout
@@ -10,7 +11,7 @@ class InventoriesController < ApplicationController
   def index
     @min_search_value = 3
     if @current_user.is_admin? or @read_only
-      @inventories = Inventory.where(archive: false).order(tag: :desc).page params[:page]
+      @inventories = Inventory.where(archive: false).joins(:user,:vendor,:kind).order(sort_column + " " + sort_direction).page params[:page]
       respond_to do |format|
         format.html {render :index}
         format.js {render :search}
@@ -33,7 +34,7 @@ class InventoriesController < ApplicationController
   def search
     f = params[:filter]
     if f == "arch"
-      @inventories = Inventory.where(archive: true).page params[:page]
+      @inventories = Inventory.where(archive: true).joins(:user,:vendor,:kind).order(sort_column + " " + sort_direction).page params[:page]
     else
       users=User.arel_table
       @users = User.where(
@@ -52,12 +53,12 @@ class InventoriesController < ApplicationController
               .or(inventories[:user_id].in(@users))
               .or(inventories[:kind_id].in(@kinds))
               .or(inventories[:vendor_id].in(@vendors))
-      ).page params[:page]
+      ).joins(:user,:vendor,:kind).order(sort_column + " " + sort_direction).page params[:page]
     end
   end
 
   def reset
-    @inventories = Inventory.order(date_of_purchase: :desc).page params[:page]
+    @inventories = Inventory.where(archive: false).joins(:user,:vendor,:kind).order(sort_column + " " + sort_direction).page params[:page]
     render :search
   end
 
@@ -168,5 +169,17 @@ class InventoriesController < ApplicationController
 
     def make_backup
       Backup.generate
+    end
+
+    def sort_column
+      i = Inventory.column_names
+      i << 'users.name'
+      i << 'vendors.title'
+      i << 'kinds.description'
+      i.include?(params[:sort]) ? params[:sort] : "tag"
+    end
+
+    def sort_direction
+      %w[asc desc].include?(params[:direction]) ? params[:direction] : "desc"
     end
 end
