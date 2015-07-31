@@ -6,7 +6,7 @@ export PATH=$PATH:/home/inventory/.rvm/bin/
 function serv_start ()
 {
     cd /home/inventory/inventory.multitel.be/current
-    unicorn_rails -c /home/inventory/inventory.multitel.be/current/config/unicorn/production.rb -E production -D
+    bundle exec unicorn_rails -c /home/inventory/inventory.multitel.be/current/config/unicorn/production.rb -E production -D
     bin/delayed_job start
 }
 

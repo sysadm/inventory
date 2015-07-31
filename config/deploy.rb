@@ -24,11 +24,17 @@ set :linked_dirs, %w{log csv tmp/pids tmp/cache tmp/sockets public/assets}
 set :keep_releases, 5
 
 after 'deploy:publishing', 'deploy:restart'
+before 'deploy:restart', 'deploy:custom_symlink'
 
 namespace :deploy do
   task :restart do
     invoke 'delayed_job:restart'
     invoke 'unicorn:restart'
+  end
+  task :custom_symlink do
+    on "inventory@inventory.multitel.be" do
+      execute "ln -sfn #{release_path}/bin/production.sh ~/bin/production.sh"
+    end
   end
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
