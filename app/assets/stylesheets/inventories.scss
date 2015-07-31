@@ -110,3 +110,22 @@ select[multiple].input-lg {
   top: 29px;
   display: none;
 }
+.pdf-inactive {
+  height: 12px;
+  width: 12px;
+  background-image: url(pdf_black.png);
+  //margin-left: 15px;
+}
+.pdf-active {
+  height: 12px;
+  width: 12px;
+  background-image: url(pdf_black.png);
+  //margin-left: 15px;
+}
+.pdf-active:hover {
+  background-image: url(pdf.png);
+}
+
+.ui-dialog-titlebar-close {
+  visibility: hidden;
+}

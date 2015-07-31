@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   get "inventory/autocomplete" => "inventories#autocomplete"
   get "users/ldap" => "users#import_new_users_from_ldap", as: :ldap_users_import
   get "backups/download/:id" => "backups#download", as: :download
+  get "inventory/:id" => "inventories#generate_pdf", as: :generate_pdf
   put "backups/rollback/:id" => "backups#rollback", as: :rollback
   put "inventories/switch/:id" => "inventories#switch", as: :switch_inventory
   put "departments/switch/:id" => "departments#switch", as: :switch_department

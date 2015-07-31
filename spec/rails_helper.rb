@@ -5,6 +5,9 @@ require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 require 'capybara/rails'
 require 'capybara/poltergeist'
+require 'pdf/reader'
+require 'pdf_to_text'
+require 'simple_page_text_receiver'
 Capybara.javascript_driver = :poltergeist
 #Capybara.javascript_driver = :selenium
 

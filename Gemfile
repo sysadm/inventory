@@ -20,6 +20,8 @@ gem "font-awesome-rails", '~> 4.3.0.0'
 gem "slim-rails", '~> 3.0.1'
 gem 'delayed_job_active_record', '~> 4.0.3'
 gem 'daemons', '~> 1.2.2'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 group :assets do
   gem 'execjs', '~> 2.5.2'
@@ -36,10 +38,11 @@ group :development, :test do
   gem 'database_cleaner', '~> 1.4.1'
   gem 'poltergeist', '~> 1.6.0'
   gem 'selenium-webdriver', '~> 2.45.0'
+  gem 'pdf-reader'
 end
 
 group :development do
-#  gem 'mysql2', '~> 0.3.18'
+  gem 'mysql2', '~> 0.3.18'
   gem 'capistrano', '~> 3.0', require: false
   gem 'capistrano-rails', '~> 1.1', require: false
   gem 'capistrano-bundler', '~> 1.1', require: false

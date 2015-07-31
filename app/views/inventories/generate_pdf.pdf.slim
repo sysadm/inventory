@@ -1,0 +1,55 @@
+html
+head
+  meta charset='utf-8'
+  title
+    = @inventory.model
+body
+  br
+  h3 style="text-align:center"
+    |Convention de prêt d'ordinateur portable
+  br
+  br
+    |Je soussigné (NOM, Prénom)
+  p
+    =@inventory.user.first_name + ' ' + @inventory.user.last_name + ','
+  p
+    = "déclare avoir reçu en prêt de Multitel ASBL un ordinateur portable"
+  p style="text-align:center"
+    b=@inventory.model
+  p
+    - if @case == true
+      |sa batterie, une alimentation, sa prise et sa housse de transport.
+    - else
+      |sa batterie, une alimentation et sa prise.
+
+  br
+  p
+    |L'ordinateur porte l'identification suivante :
+  br
+
+  h2 style="text-align:center"
+    = "MULTITEL ASBL - #{@inventory.tag}"
+  br
+  br
+  p
+    |Ce matériel ne peut en aucun cas être prêté à des tiers extérieurs à Multitel ASBL. Entretiens et réparations sont à charge de Multitel ASBL.
+  p
+    |Multitel ASBL se réserve le droit de récupérer à tout moment ce matériel.
+  p
+    |Les logiciels fournis ne pourront en aucun cas être dupliqués.
+  br
+  br
+  p
+    |Fait à Mons, le&nbsp;
+    = Time.now.strftime("%d/%m/%Y")
+  br
+  br
+  br
+  br
+  br
+  table style="margin :0 auto; height : 150px; border: 1px solid black "
+    tr
+      td style = "width:320px; border-right: 1px solid black;vertical-align: top"
+        |Signature de l'emprunteur.
+      td style = "width:320px;vertical-align: top"
+        |Signature d'un représentant de Multitel ASBL.

@@ -15,7 +15,7 @@
           = sortable 'kinds.description',t(:kind)
         th
           = sortable 'vendors.title',t(:vendor)
-        th[colspan="3"] #{t(:actions)}
+        th[colspan="4"] #{t(:actions)}
 
     tbody
       - @inventories.each do |inventory|
@@ -32,12 +32,18 @@
           td = link_to fa_icon('eye'), inventory, title: t(:details)
           -unless @read_only
             td = link_to fa_icon('edit'), edit_inventory_path(inventory), title: t(:edit), class: 'edit'
+            td
+              -if inventory.kind.mobile
+                = link_to '#', id: 'generate_pdf', :onclick => "caseDialog('#{generate_pdf_path(inventory,:pdf)}'); " do
+                  .pdf-active
+              -else
+                .pdf-inactive
             -if inventory.archive
               td = link_to fa_icon('history'), switch_inventory_path(inventory), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:restore), class: 'restore'
             -else
               td = link_to fa_icon('archive'), switch_inventory_path(inventory), data: {confirm: t(:are_you_sure)}, method: :put, title: t(:archive), class: 'archive'
       tfoot
-        td.center[colspan="10"]
+        td.center[colspan="11"]
           = paginate @inventories, remote: true
 -else
   .center
@@ -45,6 +51,31 @@
     br
 
 javascript:
+  var caseDialog = function (url) {
+    $('<div></div>').appendTo('body')
+      .html('<form><input type="checkbox" id="checkCase" /> With case?' +
+            '<input type="submit" tabindex="-1" style="position:absolute; top:-1000px">' +
+            '</form>')
+      .dialog({
+        modal: true,
+        title: 'Generating pdf', zIndex: 10000, autoOpen: true,
+        width: '300px', resizable: false,
+        buttons: {
+          Ok: function () {
+            var checkCase = document.getElementById("checkCase").checked
+            window.open(url+'?case='+checkCase);
+            $(this).dialog("close");
+          },
+          Cancel: function () {
+            $(this).dialog("close");
+
+          }
+        },
+        close: function (event, ui) {
+          $(this).remove();
+        }
+      });
+  };
   $(function () {
     $("th a").on("click", function () {
       $.getScript(this.href);

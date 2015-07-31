@@ -1,4 +1,5 @@
 class InventoriesController < ApplicationController
+  before_action :set_inventory, only: [:show, :edit, :update, :destroy, :switch]
   helper_method :sort_column, :sort_direction
   before_action :set_inventory, only: [:show, :edit, :update, :destroy, :switch]
   before_action :set_kinds_vendors_and_users, only: [:new, :edit, :update]
@@ -126,6 +127,22 @@ class InventoriesController < ApplicationController
     end
     @inventory.update_attribute(:archive, status)
     redirect_to inventories_path, notice: notice
+  end
+
+  # GET /inventories/1.pdf
+  def generate_pdf
+    @case = params[:case]=='true'? true : false
+    @inventory = Inventory.find(params[:id])
+    if @current_user.is_admin?
+      respond_to do |format|
+        format.pdf do
+          render pdf: 'document'
+        end
+      end
+    else
+      flash[:warning] = t(:no_auth_to_action)
+      redirect_to inventories_path
+    end
   end
 
   private

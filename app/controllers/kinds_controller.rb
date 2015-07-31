@@ -91,6 +91,6 @@ class KindsController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
     def kind_params
-      params.require(:kind).permit(:description, :old_id)
+      params.require(:kind).permit(:description,:mobile, :old_id)
     end
 end

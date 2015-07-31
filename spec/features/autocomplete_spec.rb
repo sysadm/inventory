@@ -11,7 +11,7 @@ describe 'Autocomplete inventory tests.',js:true, feature:true do
     create(:admin_login_user)
     create(:default_user)
   }
-  let! (:inventory){create(:inventory)}
+  let! (:inventory){create(:inventory_old)}
   before do
     I18n.locale = :en
     login_with(admin)
